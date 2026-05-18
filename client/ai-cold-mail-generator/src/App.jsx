@@ -1,9 +1,24 @@
+import React from "react"
+import {useAuth} from './context/AuthContext.jsx';
+import LandingPage from './pages/LandingPage.jsx';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+
 function App() {
+
+  const {user, loading} = useAuth();
+  if(loading){
+    return <p>Loading...</p>
+  }
  
   return (
-    <>
-     <p className="text-4xl font-extrabold text-blue-600 bg-white p-6 rounded-2xl shadow-lg border border-gray-200 transition-all hover:scale-105 duration-300">hello world!</p>
-    </>
+   <Router>
+    <Toaster position="top-right" />
+    <Routes>
+      <Route path="/" element = { <LandingPage /> } />
+    </Routes>
+   </Router>
+  
   )
 }
 
