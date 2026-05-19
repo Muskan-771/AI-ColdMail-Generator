@@ -7,6 +7,7 @@ import VerifyOtp from './pages/VerifyOtp';
 import Dashboard from './pages/Dashboard';
 import LandingPage from './pages/LandingPage';
 import { useAuth } from './context/AuthContext';
+import History from './pages/History';
 
 function App() {
     const { user, loading } = useAuth();
@@ -24,7 +25,8 @@ function App() {
 
                 {/* Protected Routes */}
                 <Route path="/dashboard" element={user ? <Layout /> : <Navigate to="/login" />}>
-                    <Route index element={<Dashboard />} />
+                    <Route index element={<Dashboard />} />   {/* URL: /dashboard */}
+                    <Route path="history" element={<History />} />      {/* URL: /dashboard/history */}
                 </Route>
             </Routes>
         </Router>

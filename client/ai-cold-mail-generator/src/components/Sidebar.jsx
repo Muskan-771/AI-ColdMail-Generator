@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { DocumentTextIcon, HomeIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, ClockIcon } from '@heroicons/react/24/outline'; // 👈 ClockIcon import kiya
 
 const Sidebar = () => {
     return (
@@ -9,14 +9,27 @@ const Sidebar = () => {
                 <h1 className="text-xl font-bold text-primary-600">MailGen AI</h1>
             </div>
             <nav className="flex-1 px-4 py-6 space-y-2">
+                {/* Dashboard Link */}
                 <NavLink
                     to="/dashboard"
+                    end // 👈 'end' isliye lagaya taaki exact match par hi active color dikhe
                     className={({ isActive }) =>
                         `flex items-center px-4 py-3 rounded-lg transition-colors ${isActive ? 'bg-primary-50 text-primary-700' : 'text-gray-600 hover:bg-gray-50'}`
                     }
                 >
                     <HomeIcon className="w-5 h-5 mr-3" />
                     Dashboard
+                </NavLink>
+
+                {/* 📜 NAYA LINK: History Page ke liye */}
+                <NavLink
+                    to="/dashboard/history"
+                    className={({ isActive }) =>
+                        `flex items-center px-4 py-3 rounded-lg transition-colors ${isActive ? 'bg-primary-50 text-primary-700' : 'text-gray-600 hover:bg-gray-50'}`
+                    }
+                >
+                    <ClockIcon className="w-5 h-5 mr-3" />
+                    History / Saved
                 </NavLink>
             </nav>
             <div className="p-4 border-t border-gray-200">
