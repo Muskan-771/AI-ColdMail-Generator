@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const protect = require('../middleware/authMiddleware')
-const aiController = require('../controllers/aiController');
+const { generateEmail, getHistory } = require('../controllers/aiController');
+const { protect } = require('../middleware/authMiddleware');
 
-router.post('/generate-email', protect, aiController.generateEmail);
-router.get('/history', protect, aiController.getHistory);
+router.post('/generate-email', protect, generateEmail);
+router.get('/history', protect, getHistory);
 
 module.exports = router;

@@ -1,5 +1,33 @@
 @import "tailwindcss";
 
+body{
+    margin: 0;
+    font-family: 'Inter', 'sans-serif';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-slider-thumb:hover {
+    background: #94a3b8;
+}
+
+
+
+
 @theme {
   /* Aapke saare custom primary shades yahan CSS variables ban jayenge */
   --color-primary-50: #eff6ff;
@@ -9,3 +37,4 @@
   --color-primary-700: #1d4ed8;
   --color-primary-900: #1e3a8a;
 }
+

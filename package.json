@@ -1,0 +1,31 @@
+{
+  "name": "ai_coldemailgenerator-mono",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install && npm install --prefix server && npm install --prefix client/ai-cold-mail-generator",
+    "install-alll": "npm install && cd server && npm install && cd ../client && npm install",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:server": "npm --prefix server run start",
+    "start:client": "npm --prefix client/ai-cold-mail-generator run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client/ai-cold-mail-generator run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Muskan-771/AI-ColdMail-Generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Muskan-771/AI-ColdMail-Generator/issues"
+  },
+  "homepage": "https://github.com/Muskan-771/AI-ColdMail-Generator#readme",
+  "description": "",
+  "dependencies": {
+    "concurrency": "^0.1.4",
+    "concurrently": "^9.2.1"
+  }
+}

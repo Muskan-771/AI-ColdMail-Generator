@@ -1,35 +1,72 @@
 const express = require('express');
-const dotenv= require('dotenv')
-const connectDB = require('./config/db')
-const authRoutes= require('./routes/authRoutes')
-const aiRoutes = require('./routes/aiRoutes')
-const PORT = process.env.PORT || 3000;
+const cors = require('cors');
+const dotenv = require('dotenv');
+const path = require('path');
 
-//ENV Variables
-require('dotenv').config();
-//Connect to MongoDB   
+const connectDB = require('./config/db');
+const authRoutes = require('./routes/authRoutes');
+const aiRoutes = require('./routes/aiRoutes');
+
+// Load environment variables
+dotenv.config();
+
+// Validate required environment variables
+const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET', 'GROQ_API_KEY'];
+const missingEnvVars = requiredEnvVars.filter(envVar => !process.env[envVar]);
+
+if (missingEnvVars.length > 0) {
+    console.error(`Missing required environment variables: ${missingEnvVars.join(', ')}`);
+    process.exit(1);
+}
+
+// Connect to MongoDB
 connectDB();
 
 const app = express();
 
-//MIDDLEWARE
+app.use(cors({
+    origin: process.env.FRONTEND_URL || true,
+    credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ROUTES
-app.use('/api/auth', authRoutes)
-app.use('/api/ai', aiRoutes)
+
+app.use('/api/auth', authRoutes);
+app.use('/api/ai', aiRoutes);
+
+// Absolute path to client build folder
+const __dirnamePath = path.resolve();
+const clientBuildPath = path.join(__dirnamePath, '..', 'client', 'dist');
+
+// Serve static files
+app.use(express.static(clientBuildPath));
+
+// For any route not starting with /api, send index.html
+// app.get('*', (req, res) => {
+//     if (!req.path.startsWith('/api')) {
+//         res.sendFile(path.join(clientBuildPath, 'index.html'));
+//     }
+// });
 
 
-app.use( (err, req, res, next) => {
+app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ error: 'Something went wrong!' });
+    res.status(500).json({ message: 'Server Error', error: err.message });
 });
 
-
-app.listen(PORT, ()=>{
-    console.log(`Server is running on port ${PORT}`)
+// Kisi bhi path string (jaise '*', '(.*)', ya '/:path*') ka use hi mat karo!
+app.use((req, res, next) => {
+    // Agar request '/api' se start nahi hoti, toh seedhe frontend ki file bhej do
+    if (!req.path.startsWith('/api') && req.method === 'GET') {
+        return res.sendFile(path.join(clientBuildPath, 'index.html'));
+    }
+    next(); // Agar API request hai toh aage jaane do
 });
 
+const PORT = process.env.PORT || 5000;
 
-
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
